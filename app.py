@@ -22,7 +22,10 @@ def index():
 
 @app.route('/show-paychecks', methods = ['GET', 'POST'])
 def show_paychecks():
-    return render_template('show-paychecks.html', paychecks=Paycheck.query.all())
+    return render_template('show-paychecks.html', bills=Bill.query.all(), paychecks=Paycheck.query.all())
+
+
+
 
 @app.route('/show-bills', methods = ['GET', 'POST'])
 def show_bills():
@@ -33,14 +36,18 @@ def show_bills():
 
 @app.route('/add-new-bill-form', methods = ['GET', 'POST'])
 def add_new_bill_form():
-    return render_template('add-new-bill-form.html')
+    return render_template('add-new-bill-form.html', paychecks=Paycheck.query.all())
 
 
 
 
 @app.route('/add-new-bill', methods = ['GET', 'POST'])
 def add_new_bill():
-    db.session.add(Bill(request.form.to_dict(flat=False)))
+    print(request.form.to_dict(flat=False))
+    form = request.form.to_dict(flat=False)
+    db.session.add(Bill(form))
+    paycheck = Paycheck.query.get(form["bills"][0])
+    paycheck.bills = paycheck
     db.session.commit()
     return redirect("/")
 
@@ -58,7 +65,7 @@ def add_new_paycheck_form():
 def add_new_paycheck():
     db.session.add(Paycheck(request.form.to_dict(flat=False)))
     db.session.commit()
-    return redirect("/")
+    return redirect("show-paychecks")
 
 
 
@@ -92,6 +99,18 @@ def delete_bill():
     Bill.query.filter_by(_id=args.get("_id")).delete()
     db.session.commit()
     return redirect("/")
+
+
+
+
+@app.route('/delete-paycheck', methods = ['GET', 'POST'])
+def delete_paycheck():
+    args = request.args
+    Paycheck.query.filter_by(_id=args.get("_id")).delete()
+    db.session.commit()
+    return redirect("/show-paychecks")
+
+
 
 
 

@@ -12,6 +12,14 @@
       <input type="date" name="due_date" value="">
       <label for="notes">Notes</label>
       <textarea name="notes" rows="4" cols="40"></textarea>
+      <label for="paychecks"></label>
+
+      <select name="bills" id="bills">
+        {% for paycheck in paychecks %}
+          <h1>{{ paycheck.name }}</h1>
+          <option value="{{ paycheck._id}}">{{ paycheck.name }}, {{ paycheck.date_paid }}</option>
+        {% endfor %}
+      </select>
     </div>
     <input type="submit" value="Submit">
   </form>
