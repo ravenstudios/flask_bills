@@ -1,0 +1,25 @@
+{% block content %}
+<div id="content">
+  <p>Enter New Item</p>
+  <div id="input-section">
+
+    <input type="text" id="add-new-item" value="">
+
+  </div>
+
+  <ul>
+  {% for item in chore %}
+      <li class="list-item">{{ item.item }}
+        <span>
+          <p>{{ item }}</p>
+          <input id="{{ item._id }}" type="checkbox" class="delete-item-checkbox">
+          <button id="{{ item._id }}" type="button" class="del-button">X</button>
+        </span>
+
+      </li>
+
+  {% endfor %}
+  </ul>
+  <button  id="del-checked-button"type="button" class="del-checked-button">Delete Checked</button>
+</div>
+{% endblock %}

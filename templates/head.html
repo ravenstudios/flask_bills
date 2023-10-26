@@ -1,0 +1,7 @@
+{% block head %}
+  <link rel="stylesheet" href= "{{ url_for('static',filename='style.css') }}" />
+  <title>{% block title %}{% endblock %} - My Webpage</title>
+
+  <script type="text/javascript" src="{{ url_for('static',filename='jquery.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static',filename='js.js') }}"></script>
+{% endblock %}

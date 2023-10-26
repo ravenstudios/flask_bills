@@ -1,0 +1,23 @@
+{% extends 'base-template.html' %}
+{% block content %}
+<div id="content">
+  <form class="" action="edit-chore" method="post">
+    <div class="">
+      <h1>Edit Chore</h1>
+
+      <input type="hidden" name="_id" value="{{ chore._id}}">
+      <input type="text" name="chore-name" value="{{ chore.name }}">
+      <textarea name="notes" rows="4" cols="40">{{ chore.notes }}</textarea>
+      <label for="assinged-to">Assinged To:</label>
+      <select name="assinged-to" id="assinged-to">
+        <option value="Jordan">Jordan</option>
+        <option value="Rob">Rob</option>
+        <option value="Krystle">Krystle</option>
+      <label for="repeat">Repeat Chore:</label>
+      <input type="checkbox" name="repeat" value="">
+      </select>
+    </div>
+    <input type="submit" value="Submit">
+  </form>
+</div>
+{% endblock %}
