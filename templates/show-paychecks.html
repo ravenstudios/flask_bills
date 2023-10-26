@@ -8,14 +8,15 @@
       <th>Ammount</th>
       <th>Paid Date</th>
       <th>Notes</th>
+      <th>Bills</th>
     </tr>
-    
+
     {% for paycheck in paychecks %}
       <tr>
             <td>{{ paycheck.name }}</td>
             <td>{{ paycheck.ammount }}</td>
-            <td>{{ paycheck.paid_date }}</td>
             <td>{{ paycheck.date_paid }}</td>
+            <td>{{ paycheck.notes }}</td>
             <td>{{ paycheck.bills }}</td>
 
             <td><a href="/delete-paycheck?_id={{ paycheck._id }}">DEL</a></td>

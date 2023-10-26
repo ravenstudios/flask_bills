@@ -46,8 +46,6 @@ def add_new_bill():
     print(request.form.to_dict(flat=False))
     form = request.form.to_dict(flat=False)
     db.session.add(Bill(form))
-    paycheck = Paycheck.query.get(form["bills"][0])
-    paycheck.bills = paycheck
     db.session.commit()
     return redirect("/")
 
@@ -63,7 +61,10 @@ def add_new_paycheck_form():
 
 @app.route('/add-new-paycheck', methods = ['GET', 'POST'])
 def add_new_paycheck():
-    db.session.add(Paycheck(request.form.to_dict(flat=False)))
+    form_data = request.form.to_dict(flat=False)
+    print(f"form:{form_data}")
+    new_paychack = Paycheck(form_data)
+    db.session.add(new_paychack)
     db.session.commit()
     return redirect("show-paychecks")
 

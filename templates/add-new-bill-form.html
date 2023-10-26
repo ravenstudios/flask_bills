@@ -14,10 +14,10 @@
       <textarea name="notes" rows="4" cols="40"></textarea>
       <label for="paychecks"></label>
 
-      <select name="bills" id="bills">
+      <select name="paycheck_id" id="">
         {% for paycheck in paychecks %}
           <h1>{{ paycheck.name }}</h1>
-          <option value="{{ paycheck._id}}">{{ paycheck.name }}, {{ paycheck.date_paid }}</option>
+          <option value="{{ paycheck._id }}">{{ paycheck.name }}, {{ paycheck.date_paid }}</option>
         {% endfor %}
       </select>
     </div>
