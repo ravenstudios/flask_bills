@@ -1,6 +1,6 @@
 from __main__ import app
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+import datetime
 
 db = SQLAlchemy(app)
 
@@ -21,7 +21,7 @@ class Bill(db.Model):
     def __init__(self, bill):
         self.name = bill["name"][0]
         self.ammount = "ammount" in bill.keys()
-        self.due_date = "due_date" in bill.keys()
-        self.date_paid = "date_paid" in bill.keys()
-        self.is_paid = bill["is_paid"][0]
+        self.due_date = datetime.datetime.now()
+        self.date_paid = datetime.datetime.now()
+        self.is_paid = None
         self.notes = bill["notes"][0]

@@ -32,7 +32,7 @@ def add_new_bill_form():
 def add_new_bill():
     db.session.add(Bill(request.form.to_dict(flat=False)))
     db.session.commit()
-    return render_template('show-bills.html')
+    return redirect("/")
 
 
 
