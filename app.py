@@ -12,12 +12,22 @@ app = Flask(__name__, static_url_path='/static')
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///bills.sqlite3"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-from schema import db, Bill
+from schema import db, Bill, Paycheck
 
 
 @app.route('/')
 def index():
-    return render_template('show-bills.html', bill=Bill.query.all())
+    return render_template('show-bills.html', bills=Bill.query.all())
+
+
+@app.route('/show-paychecks', methods = ['GET', 'POST'])
+def show_paychecks():
+    return render_template('show-paychecks.html', paychecks=Paycheck.query.all())
+
+@app.route('/show-bills', methods = ['GET', 'POST'])
+def show_bills():
+    return render_template('show-bills.html', bills=Bill.query.all())
+
 
 
 
@@ -33,6 +43,23 @@ def add_new_bill():
     db.session.add(Bill(request.form.to_dict(flat=False)))
     db.session.commit()
     return redirect("/")
+
+
+
+
+@app.route('/add-new-paycheck-form', methods = ['GET', 'POST'])
+def add_new_paycheck_form():
+    return render_template('add-new-paycheck-form.html')
+
+
+
+
+@app.route('/add-new-paycheck', methods = ['GET', 'POST'])
+def add_new_paycheck():
+    db.session.add(Paycheck(request.form.to_dict(flat=False)))
+    db.session.commit()
+    return redirect("/")
+
 
 
 

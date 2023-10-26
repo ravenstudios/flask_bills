@@ -1,28 +1,26 @@
 {% extends 'base-template.html' %}
 {% block content %}
 <div id="content">
-  <h2>Bills</h2>
+  <h2>Paychecks</h2>
   <table>
     <tr>
       <th>Name</th>
       <th>Ammount</th>
-      <th>Due Date</th>
-      <th>Date Paid</th>
-      <th>Is Paid</th>
+      <th>Paid Date</th>
       <th>Notes</th>
     </tr>
-    {% for bill in bills %}
+    <h1>{{ paycheck }}</h1>
+    {% for paycheck in paychecks %}
       <tr>
-            <td>{{ bill.name }}</td>
-            <td>{{ bill.ammount }}</td>
-            <td>{{ bill.due_date }}</td>
-            <td>{{ bill.date_paid }}</td>
-            <td>{{ bill.is_paid }}</td>
-            <td>{{ bill.notes }}</td>
+            <td>{{ paycheck.name }}</td>
+            <td>{{ paycheck.ammount }}</td>
+            <td>{{ paycheck.paid_date }}</td>
+            <td>{{ paycheck.date_paid }}</td>
+            <td>{{ paycheck.bills }}</td>
 
-            <td><a href="/delete-bill?_id={{ bill._id }}">DEL</a></td>
-            <td><a href="/edit-bill-form?_id={{ bill._id }}">Edit</a></td>
-            <td><a href="/compleated-bill?_id={{ bill._id }}">Compleated</a></td>
+            <td><a href="/delete-paycheck?_id={{ paycheck._id }}">DEL</a></td>
+            <td><a href="/edit-paycheck-form?_id={{ paycheck._id }}">Edit</a></td>
+
       </tr>
 
       {% endfor %}
