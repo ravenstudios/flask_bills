@@ -7,7 +7,7 @@ db = SQLAlchemy(app)
 
 
 class Bill(db.Model):
-
+    __tablename__ = "bill"
     _id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
     ammount = db.Column(db.String(100))
@@ -26,23 +26,29 @@ class Bill(db.Model):
         self.date_paid = None
         self.is_paid = None
         self.notes = bill["notes"][0]
+        self.paycheck_id = bill["paycheck_id"][0]
 
+    def __repr__(self):
+        return f"{self.name} {self.ammount} {self.due_date}"
 
 class Paycheck(db.Model):
-
+    __tablename__ = "paycheck"
     _id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
     ammount = db.Column(db.String(100))
-    paid_date = db.Column(db.Date())
-    bills = db.relationship("Bill", backref="bill")
+    date_paid = db.Column(db.Date())
+    bills = db.relationship("Bill", backref="paycheck")
+
 
 
 
     def __init__(self, paycheck):
         self.name = paycheck["name"][0]
         self.ammount = paycheck["ammount"][0]
-        self.due_date = datetime.datetime.now()
-        self.date_paid = None
-        self.is_paid = None
+        self.date_paid = datetime.datetime.now()
         self.notes = paycheck["notes"][0]
-        self.bills = []
+        # if paycheck.has_key('bills'):
+        #     self.bills = paycheck["bills"][0]
+
+    def __repr__(self):
+        return f"{self.name} {self.ammount} {self.date_paid}"
