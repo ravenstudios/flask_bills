@@ -59,8 +59,8 @@ def add_new_paycheck():
 def edit_bill_form():
     id = request.args.get('_id')
     print(f"id:{id}")
-    return render_template('edit-bill-form.html', bill=Bill.query.get(id))
-    
+    return render_template('edit-bill-form.html', bill=Bill.query.get(id), paychecks=Paycheck.query.all())
+
 
 
 @app.route('/edit-bill', methods = ['GET', 'POST'])
@@ -69,7 +69,6 @@ def edit_bill():
     bill = Bill.query.get(form["_id"])
     bill.name = form["bill-name"][0]
     bill.notes = form["notes"][0]
-    bill.assinged_to = form["assinged-to"][0]
     db.session.commit()
     return render_template('index.html', bill=Bill.query.all())
 

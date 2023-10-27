@@ -9,6 +9,12 @@
       <input type="text" name="bill-name" value="{{ bill.name }}">
       <input type="text" name="bill-ammount" value="{{ bill.ammount }}">
       <textarea name="notes" rows="4" cols="40">{{ bill.notes }}</textarea>
+      <select name="paycheck_id" id="">
+        {% for paycheck in paychecks %}
+          <h1>{{ paycheck.name }}</h1>
+          <option value="{{ paycheck._id }}">{{ paycheck.name }}, {{ paycheck.date_paid }}</option>
+        {% endfor %}
+      </select>
     </div>
     <input type="submit" value="Submit">
   </form>

@@ -4,9 +4,27 @@
       {% include "head.html" %}
   </head>
   <body>
-    {% include "header.html" %}
-    {% block content %} {% endblock %}
-    {% include "footer.html" %}
+
+    <section class="section">
+
+      <div class="container is-fluid">
+        <div class="notification is-primary">
+          This container is <strong>centered</strong> on desktop and larger viewports.
+        </div>
+      </div>
+
+      <div class="container">
+        {% include "header.html" %}
+        {% block content %} {% endblock %}
+        <div class="footer ">
+          {% include "footer.html" %}
+        </div>
+
+      </div>
+
+  </section>
+
+
   </body>
 
 </html>
