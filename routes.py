@@ -24,18 +24,7 @@ def show_bills():
 
 
 
-@app.route('/add-new-bill-form', methods = ['GET', 'POST'])
-def add_new_bill_form():
-    return render_template('add-new-bill-form.html', paychecks=Paycheck.query.all())
 
-
-
-@app.route('/add-new-bill', methods = ['GET', 'POST'])
-def add_new_bill():
-    form = request.form.to_dict(flat=False)
-    db.session.add(Bill(form))
-    db.session.commit()
-    return redirect("/")
 
 
 
@@ -54,6 +43,50 @@ def add_new_paycheck():
     return redirect("show-paychecks")
 
 
+@app.route('/edit-paycheck-form', methods = ['GET', 'POST'])
+def edit_paycheck_form():
+    print("edit paycheck form ")
+    id = request.args.get('_id')
+    return render_template('edit-paycheck-form.html', paycheck=Paycheck.query.get(id))
+
+
+@app.route('/edit-paycheck', methods = ['GET', 'POST'])
+def edit_paycheck():
+    form = request.form.to_dict(flat=False)
+    print(form)
+    paycheck = Paycheck.query.get(form["_id"])
+    paycheck.name = form["paycheck-name"][0]
+    paycheck.ammount = form["paycheck-ammount"][0]
+    paycheck.notes = form["notes"][0]
+    db.session.commit()
+    return render_template('show-paychecks.html', paychecks=Paycheck.query.all())
+
+
+
+@app.route('/delete-paycheck', methods = ['GET', 'POST'])
+def delete_paycheck():
+    args = request.args
+    Paycheck.query.filter_by(_id=args.get("_id")).delete()
+    db.session.commit()
+    return redirect("/show-paychecks")
+
+
+
+
+@app.route('/add-new-bill-form', methods = ['GET', 'POST'])
+def add_new_bill_form():
+    return render_template('add-new-bill-form.html', paychecks=Paycheck.query.all())
+
+
+
+@app.route('/add-new-bill', methods = ['GET', 'POST'])
+def add_new_bill():
+    form = request.form.to_dict(flat=False)
+    db.session.add(Bill(form))
+    db.session.commit()
+    return redirect("/")
+
+
 
 @app.route('/edit-bill-form', methods = ['GET', 'POST'])
 def edit_bill_form():
@@ -68,10 +101,11 @@ def edit_bill():
     form = request.form.to_dict(flat=False)
     bill = Bill.query.get(form["_id"])
     bill.name = form["bill-name"][0]
+    bill.ammount = form["bill-ammount"][0]
     bill.notes = form["notes"][0]
+    bill.paycheck_id = form["paycheck_id"][0]
     db.session.commit()
-    return render_template('index.html', bill=Bill.query.all())
-
+    return render_template('show-bills.html', bills=Bill.query.all())
 
 
 @app.route('/compleated-bill', methods = ['GET', 'POST'])
@@ -91,12 +125,3 @@ def delete_bill():
     Bill.query.filter_by(_id=args.get("_id")).delete()
     db.session.commit()
     return redirect("/")
-
-
-
-@app.route('/delete-paycheck', methods = ['GET', 'POST'])
-def delete_paycheck():
-    args = request.args
-    Paycheck.query.filter_by(_id=args.get("_id")).delete()
-    db.session.commit()
-    return redirect("/show-paychecks")

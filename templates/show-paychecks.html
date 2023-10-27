@@ -22,7 +22,7 @@
               <td>
                 <ul>
                   {% for bill in paycheck.bills%}
-                  <a href="/#"><li>{{ bill }}</li></a>
+                  <a href="/edit-bill-form?_id={{ bill._id}}"><li>{{ bill }}</li></a>
 
                   {% endfor %}
                 </ul>

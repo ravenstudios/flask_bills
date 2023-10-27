@@ -1,0 +1,22 @@
+{% extends 'base-template.html' %}
+{% block content %}
+<div id="content">
+  <form class="" action="edit-paycheck" method="post">
+    <div class="">
+      <h1>Edit Paycheck</h1>
+
+      <input type="hidden" name="_id" value="{{ paycheck._id}}">
+      <input type="text" name="paycheck-name" value="{{ paycheck.name }}">
+      <input type="text" name="paycheck-ammount" value="{{ paycheck.ammount }}">
+      <textarea name="notes" rows="4" cols="40">{{ paycheck.notes }}</textarea>
+      <select name="paycheck_id" id="">
+        {% for paycheck in paychecks %}
+          <h1>{{ paycheck.name }}</h1>
+          <option value="{{ paycheck._id }}">{{ paycheck.name }}, {{ paycheck.date_paid }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <input type="submit" value="Submit">
+  </form>
+</div>
+{% endblock %}
