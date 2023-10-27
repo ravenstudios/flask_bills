@@ -10,9 +10,10 @@
       <input type="text" name="bill-ammount" value="{{ bill.ammount }}">
       <textarea name="notes" rows="4" cols="40">{{ bill.notes }}</textarea>
       <select name="paycheck_id" id="">
+        <option value=""></option>
         {% for paycheck in paychecks %}
           <h1>{{ paycheck.name }}</h1>
-          <option value="{{ paycheck._id }}">{{ paycheck.name }}, {{ paycheck.date_paid }}</option>
+          <option {% if paycheck._id == bill.paycheck_id%} selected {% endif%} value="{{ paycheck._id }}">{{ paycheck.name }}, {{ paycheck.date_paid }}</option>
         {% endfor %}
       </select>
     </div>

@@ -25,6 +25,9 @@
                   <a href="/edit-bill-form?_id={{ bill._id}}"><li>{{ bill }}</li></a>
 
                   {% endfor %}
+                  {% set total = paycheck.bills|sum(attribute='ammount') %}
+                  Total: {{ total }}
+                  Balance: {{ paycheck.ammount - total }}
                 </ul>
 
               </td>

@@ -1,8 +1,6 @@
-from __main__ import app
+from __main__ import db
 from flask_sqlalchemy import SQLAlchemy
 import datetime
-
-db = SQLAlchemy(app)
 
 
 
@@ -10,7 +8,7 @@ class Bill(db.Model):
     __tablename__ = "bill"
     _id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
-    ammount = db.Column(db.String(100))
+    ammount = db.Column(db.Integer())
     due_date = db.Column(db.Date())
     date_paid = db.Column(db.Date())
     is_paid = db.Column(db.Boolean())
@@ -35,7 +33,7 @@ class Paycheck(db.Model):
     __tablename__ = "paycheck"
     _id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
-    ammount = db.Column(db.String(100))
+    ammount = db.Column(db.Integer())
     date_paid = db.Column(db.Date())
     bills = db.relationship("Bill", backref="paycheck")
 
