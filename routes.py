@@ -4,7 +4,7 @@ from flask import render_template
 from flask import request
 from __main__ import app
 from schema import db, Bill, Paycheck
-
+import datetime
 
 @app.route('/')
 def index():
@@ -37,8 +37,12 @@ def add_new_paycheck_form():
 @app.route('/add-new-paycheck', methods = ['GET', 'POST'])
 def add_new_paycheck():
     form_data = request.form.to_dict(flat=False)
-    new_paychack = Paycheck(form_data)
-    db.session.add(new_paychack)
+    new_paycheck = Paycheck(form_data)
+    a = form_data["date-paid"][0].split("-")
+    date_paid = datetime.datetime(int(a[0]), int(a[1]), int(a[2]))
+
+    new_paycheck.date_paid = date_paid
+    db.session.add(new_paycheck)
     db.session.commit()
     return redirect("show-paychecks")
 
@@ -57,6 +61,9 @@ def edit_paycheck():
     paycheck = Paycheck.query.get(form["_id"])
     paycheck.name = form["paycheck-name"][0]
     paycheck.ammount = form["paycheck-ammount"][0]
+    a = form["date-paid"][0].split("-")
+    date = datetime.datetime(int(a[0]), int(a[1]), int(a[2]))
+    paycheck.date_paid = date
     paycheck.notes = form["notes"][0]
     db.session.commit()
     return render_template('show-paychecks.html', paychecks=Paycheck.query.all())
@@ -108,15 +115,25 @@ def edit_bill():
     return render_template('show-bills.html', bills=Bill.query.all())
 
 
-@app.route('/compleated-bill', methods = ['GET', 'POST'])
-def compleated_bill():
+@app.route('/paid-bill', methods = ['GET', 'POST'])
+def paid_bill():
     id = request.args.get('_id')
     bill = Bill.query.get(id)
     bill.date_compleated = datetime.datetime.now()
-    bill.compleated = True
+    bill.is_paid = True
     db.session.commit()
-    return render_template('index.html', bill=Bill.query.all())
+    return render_template('show-bills.html', bills=Bill.query.all())
 
+
+
+@app.route('/unpay-bill', methods = ['GET', 'POST'])
+def unpay_bill():
+    id = request.args.get('_id')
+    bill = Bill.query.get(id)
+    bill.date_compleated = None
+    bill.is_paid = False
+    db.session.commit()
+    return render_template('show-bills.html', bills=Bill.query.all())
 
 
 @app.route('/delete-bill', methods = ['GET', 'POST'])

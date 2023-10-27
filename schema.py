@@ -27,7 +27,7 @@ class Bill(db.Model):
         self.paycheck_id = bill["paycheck_id"][0]
 
     def __repr__(self):
-        return f"{self.name} {self.ammount} {self.due_date}"
+        return f"{self.name} {self.ammount}"
 
 class Paycheck(db.Model):
     __tablename__ = "paycheck"
@@ -43,7 +43,7 @@ class Paycheck(db.Model):
     def __init__(self, paycheck):
         self.name = paycheck["name"][0]
         self.ammount = paycheck["ammount"][0]
-        self.date_paid = datetime.datetime.now()
+        self.date_paid = None
         self.notes = paycheck["notes"][0]
         # if paycheck.has_key('bills'):
         #     self.bills = paycheck["bills"][0]

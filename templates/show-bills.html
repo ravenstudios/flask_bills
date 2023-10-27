@@ -1,7 +1,7 @@
 {% extends 'base-template.html' %}
 {% block content %}
 <div id="content">
-  <h2>Bills</h2>
+  <h1>Bills Not Assigned</h1>
   <table>
     <tr>
       <th>Name</th>
@@ -12,19 +12,48 @@
       <th>Notes</th>
     </tr>
     {% for bill in bills %}
-      <tr>
-            <td>{{ bill.name }}</td>
-            <td>{{ bill.ammount }}</td>
-            <td>{{ bill.due_date }}</td>
-            <td>{{ bill.date_paid }}</td>
-            <td>{{ bill.is_paid }}</td>
-            <td>{{ bill.notes }}</td>
+      {% if bill.paycheck_id == "" and bill.is_paid != True %}
+        <tr>
+              <td>{{ bill.name }}</td>
+              <td>{{ bill.ammount }}</td>
+              <td>{{ bill.due_date }}</td>
+              <td>{{ bill.date_paid }}</td>
+              <td>{{ bill.is_paid }}</td>
+              <td>{{ bill.notes }}</td>
 
-            <td><a href="/delete-bill?_id={{ bill._id }}">DEL</a></td>
-            <td><a href="/edit-bill-form?_id={{ bill._id }}">Edit</a></td>
-            <td><a href="/compleated-bill?_id={{ bill._id }}">Compleated</a></td>
-      </tr>
+              <td><a href="/delete-bill?_id={{ bill._id }}">DEL</a></td>
+              <td><a href="/edit-bill-form?_id={{ bill._id }}">Edit</a></td>
+              <td><a href="/paid-bill?_id={{ bill._id }}">Paid</a></td>
+        </tr>
+        {% endif %}
+      {% endfor %}
+  </table>
 
+  <h1>Bills Paid</h1>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Ammount</th>
+      <th>Due Date</th>
+      <th>Date Paid</th>
+      <th>Is Paid</th>
+      <th>Notes</th>
+    </tr>
+    {% for bill in bills %}
+      {% if bill.is_paid == True %}
+        <tr>
+              <td>{{ bill.name }}</td>
+              <td>{{ bill.ammount }}</td>
+              <td>{{ bill.due_date }}</td>
+              <td>{{ bill.date_paid }}</td>
+              <td>{{ bill.is_paid }}</td>
+              <td>{{ bill.notes }}</td>
+
+              <td><a href="/delete-bill?_id={{ bill._id }}">DEL</a></td>
+              <td><a href="/unpay-bill?_id={{ bill._id }}">Unpay</a></td>
+              
+        </tr>
+        {% endif %}
       {% endfor %}
   </table>
   <!-- <h2>Compleated Bills</h2>

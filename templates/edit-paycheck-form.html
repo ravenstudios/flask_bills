@@ -8,6 +8,8 @@
       <input type="hidden" name="_id" value="{{ paycheck._id}}">
       <input type="text" name="paycheck-name" value="{{ paycheck.name }}">
       <input type="text" name="paycheck-ammount" value="{{ paycheck.ammount }}">
+      <label for="date-paid-">Paid Date</label>
+      <input type="date" name="date-paid" value="">
       <textarea name="notes" rows="4" cols="40">{{ paycheck.notes }}</textarea>
       <select name="paycheck_id" id="">
         {% for paycheck in paychecks %}
