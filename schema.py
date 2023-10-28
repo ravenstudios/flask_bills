@@ -35,6 +35,7 @@ class Paycheck(db.Model):
     name = db.Column(db.String(100))
     ammount = db.Column(db.Integer())
     date_paid = db.Column(db.Date())
+    # notes = db.Column(db.String(255))
     bills = db.relationship("Bill", backref="paycheck")
 
 

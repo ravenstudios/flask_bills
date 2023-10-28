@@ -6,31 +6,27 @@ from __main__ import app
 from schema import db, Bill, Paycheck
 import datetime
 
+
+
 @app.route('/')
 def index():
-    return render_template('show-bills.html', bills=Bill.query.all())
+    return render_template('paycheck/show-paychecks.html', paychecks=Paycheck.query.all())
 
 
 
 @app.route('/show-paychecks', methods = ['GET', 'POST'])
 def show_paychecks():
-    return render_template('show-paychecks.html', bills=Bill.query.all(), paychecks=Paycheck.query.all())
-
-
-
-@app.route('/show-bills', methods = ['GET', 'POST'])
-def show_bills():
-    return render_template('show-bills.html', bills=Bill.query.all())
-
-
-
-
+    return render_template('paycheck/show-paychecks.html', bills=Bill.query.all(), paychecks=Paycheck.query.all())
 
 
 
 @app.route('/add-new-paycheck-form', methods = ['GET', 'POST'])
 def add_new_paycheck_form():
-    return render_template('add-new-paycheck-form.html')
+    if request.method == 'POST':
+        id = request.args.get('_id')
+        return render_template('paycheck/paycheck-form.html', paycheck=Paycheck.query.get(id))
+    else:
+        return render_template('paycheck/paycheck-form.html', today=datetime.datetime.now().strftime("%Y-%m-%d"))
 
 
 
@@ -38,35 +34,32 @@ def add_new_paycheck_form():
 def add_new_paycheck():
     form_data = request.form.to_dict(flat=False)
     new_paycheck = Paycheck(form_data)
-    a = form_data["date-paid"][0].split("-")
-    date_paid = datetime.datetime(int(a[0]), int(a[1]), int(a[2]))
-
+    date_arr = form_data["date-paid"][0].split("-")
+    date_paid = datetime.datetime(int(date_arr[0]), int(date_arr[1]), int(date_arr[2]))
     new_paycheck.date_paid = date_paid
     db.session.add(new_paycheck)
     db.session.commit()
-    return redirect("show-paychecks")
+    return redirect("/show-paychecks")
 
 
 @app.route('/edit-paycheck-form', methods = ['GET', 'POST'])
 def edit_paycheck_form():
-    print("edit paycheck form ")
     id = request.args.get('_id')
-    return render_template('edit-paycheck-form.html', paycheck=Paycheck.query.get(id))
+    return render_template('paycheck/paycheck-form.html', paycheck=Paycheck.query.get(id))
 
 
 @app.route('/edit-paycheck', methods = ['GET', 'POST'])
 def edit_paycheck():
-    form = request.form.to_dict(flat=False)
-    print(form)
-    paycheck = Paycheck.query.get(form["_id"])
-    paycheck.name = form["paycheck-name"][0]
-    paycheck.ammount = form["paycheck-ammount"][0]
-    a = form["date-paid"][0].split("-")
-    date = datetime.datetime(int(a[0]), int(a[1]), int(a[2]))
+    form_data = request.form.to_dict(flat=False)
+    paycheck = Paycheck.query.get(form_data["_id"])
+    paycheck.name = form_data["name"][0]
+    paycheck.ammount = form_data["ammount"][0]
+    date_arr = form_data["date-paid"][0].split("-")
+    date = datetime.datetime(int(date_arr[0]), int(date_arr[1]), int(date_arr[2]))
     paycheck.date_paid = date
-    paycheck.notes = form["notes"][0]
+    paycheck.notes = form_data["notes"][0]
     db.session.commit()
-    return render_template('show-paychecks.html', paychecks=Paycheck.query.all())
+    return render_template('paycheck/show-paychecks.html', paychecks=Paycheck.query.all())
 
 
 
@@ -79,10 +72,20 @@ def delete_paycheck():
 
 
 
+# *******************Bills**************************
+@app.route('/show-bills', methods = ['GET', 'POST'])
+def show_bills():
+    return render_template('bill/show-bills.html', bills=Bill.query.all())
+
+
 
 @app.route('/add-new-bill-form', methods = ['GET', 'POST'])
 def add_new_bill_form():
-    return render_template('add-new-bill-form.html', paychecks=Paycheck.query.all())
+    if request.method == 'POST':
+        id = request.args.get('_id')
+        return render_template('bill/bill-form.html', bill=Bill.query.get(id))
+    else:
+        return render_template('bill/bill-form.html', today=datetime.datetime.now().strftime("%Y-%m-%d"))
 
 
 
@@ -99,20 +102,23 @@ def add_new_bill():
 def edit_bill_form():
     id = request.args.get('_id')
     print(f"id:{id}")
-    return render_template('edit-bill-form.html', bill=Bill.query.get(id), paychecks=Paycheck.query.all())
+    return render_template('bill/bill-form.html', bill=Bill.query.get(id), paychecks=Paycheck.query.all())
 
 
 
 @app.route('/edit-bill', methods = ['GET', 'POST'])
 def edit_bill():
-    form = request.form.to_dict(flat=False)
-    bill = Bill.query.get(form["_id"])
-    bill.name = form["bill-name"][0]
-    bill.ammount = form["bill-ammount"][0]
-    bill.notes = form["notes"][0]
-    bill.paycheck_id = form["paycheck_id"][0]
+    form_data = request.form.to_dict(flat=False)
+    bill = Bill.query.get(form_data["_id"])
+    bill.name = form_data["name"][0]
+    bill.ammount = form_data["ammount"][0]
+    bill.notes = form_data["notes"][0]
+    date_arr = form_data["due-date"][0].split("-")
+    date = datetime.datetime(int(date_arr[0]), int(date_arr[1]), int(date_arr[2]))
+    bill.due_date = date
+    bill.paycheck_id = form_data["paycheck_id"][0]
     db.session.commit()
-    return render_template('show-bills.html', bills=Bill.query.all())
+    return render_template('bill/show-bills.html', bills=Bill.query.all())
 
 
 @app.route('/paid-bill', methods = ['GET', 'POST'])
@@ -122,7 +128,7 @@ def paid_bill():
     bill.date_compleated = datetime.datetime.now()
     bill.is_paid = True
     db.session.commit()
-    return render_template('show-bills.html', bills=Bill.query.all())
+    return render_template('bill/show-bills.html', bills=Bill.query.all())
 
 
 
@@ -133,7 +139,7 @@ def unpay_bill():
     bill.date_compleated = None
     bill.is_paid = False
     db.session.commit()
-    return render_template('show-bills.html', bills=Bill.query.all())
+    return render_template('bill/show-bills.html', bills=Bill.query.all())
 
 
 @app.route('/delete-bill', methods = ['GET', 'POST'])

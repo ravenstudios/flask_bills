@@ -3,7 +3,7 @@
 <div id="content">
   <h1>Bills Not Assigned</h1>
   <table>
-    <tr>
+    <tr class="notification is-warning">
       <th>Name</th>
       <th>Ammount</th>
       <th>Due Date</th>
@@ -13,7 +13,7 @@
     </tr>
     {% for bill in bills %}
       {% if bill.paycheck_id == "" and bill.is_paid != True %}
-        <tr>
+        <tr class="notification is-warning">
               <td>{{ bill.name }}</td>
               <td>{{ bill.ammount }}</td>
               <td>{{ bill.due_date }}</td>
@@ -31,7 +31,7 @@
 
   <h1>Bills Paid</h1>
   <table>
-    <tr>
+    <tr class="notification is-link">
       <th>Name</th>
       <th>Ammount</th>
       <th>Due Date</th>
@@ -41,7 +41,7 @@
     </tr>
     {% for bill in bills %}
       {% if bill.is_paid == True %}
-        <tr>
+        <tr class="notification is-link">
               <td>{{ bill.name }}</td>
               <td>{{ bill.ammount }}</td>
               <td>{{ bill.due_date }}</td>
@@ -51,15 +51,38 @@
 
               <td><a href="/delete-bill?_id={{ bill._id }}">DEL</a></td>
               <td><a href="/unpay-bill?_id={{ bill._id }}">Unpay</a></td>
-              
+
         </tr>
         {% endif %}
       {% endfor %}
   </table>
+  <h1>All Bills</h1>
+  <table>
+    <tr class="notification is-success">
+      <th>Name</th>
+      <th>Ammount</th>
+      <th>Due Date</th>
+      <th>Date Paid</th>
+      <th>Is Paid</th>
+      <th>Notes</th>
+    </tr>
+    {% for bill in bills %}
+      <tr class="notification is-success">
+            <td>{{ bill.name }}</td>
+            <td>{{ bill.ammount }}</td>
+            <td>{{ bill.due_date }}</td>
+            <td>{{ bill.date_paid }}</td>
+            <td>{{ bill.is_paid }}</td>
+            <td>{{ bill.notes }}</td>
+            <td><a href="/delete-bill?_id={{ bill._id }}">DEL</a></td>
+            <td><a href="/edit-bill-form?_id={{ bill._id }}">Edit</a></td>
+      </tr>
+    {% endfor %}
+  </table>
   <!-- <h2>Compleated Bills</h2>
   <table>
 
-    <tr>
+    <tr class="notification is-link">
       <th>Name</th>
       <th>Notes</th>
       <th>Assinged To</th>
@@ -72,7 +95,7 @@
 
     {% for item in bill %}
       {% if item.compleated == True %}
-      <tr>
+      <tr class="notification is-link">
             <td>{{ item.name }}</td>
             <td>{{ item.notes }}</td>
             <td>{{ item.assinged_to }}</td>

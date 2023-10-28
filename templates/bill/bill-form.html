@@ -1,0 +1,24 @@
+{% extends 'base-template.html' %}
+{% block content %}
+<div id="content">
+  <form class="" action="{% if bill %}edit-bill{% else %}add-new-bill{% endif %}" method="post">
+    <div class="">
+      <h1>{% if bill %}EDIT BILL{% else %}ADD NEW BILL{% endif %}</h1>
+
+      <input type="hidden" name="_id" value="{% if bill %}{{ bill._id}}{% endif %}">
+      <input required type="text" name="name" value="{% if bill %}{{ bill.name }}{% endif %}">
+      <input pattern="\d*" required type="text" name="ammount" value="{% if bill %}{{ bill.ammount }}{% endif %}">
+      <input required type="date" name="due-date" value="{% if bill %}{{ bill.due_date }}{% else %}{{ today }}{% endif %}">
+      <textarea name="notes" rows="4" cols="40">{% if bill %}{{ bill.notes }}{% endif %}</textarea>
+      <select name="paycheck_id" id="">
+        <option value=""></option>
+        {% for paycheck in paychecks %}
+          <h1>{% if bill %}{{ paycheck.name }}{% endif %}</h1>
+          <option {% if paycheck._id == bill.paycheck_id%} selected {% endif%} value="{% if bill %}{{ paycheck._id }}{% endif %}">{% if bill %}{{ paycheck.name }}{% endif %}, {% if bill %}{{ paycheck.date_paid }}{% endif %}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <input type="submit" value="Submit">
+  </form>
+</div>
+{% endblock %}

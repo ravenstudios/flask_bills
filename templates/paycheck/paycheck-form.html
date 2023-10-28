@@ -1,0 +1,24 @@
+{% extends 'base-template.html' %}
+{% block content %}
+<div id="content">
+  <form class="" action="{% if paycheck %}edit-paycheck{%else%}add-new-paycheck{% endif %}" method="post">
+    <div class="">
+      <h1>{% if paycheck %}EDIT PAYCHECK{% else %}ADD NEW PAYCHECK{% endif %}</h1>
+
+      <input type="hidden" name="_id" value="{% if paycheck %} {{ paycheck._id}}{% endif %}">
+      <input type="text" name="name" value="{% if paycheck %} {{ paycheck.name }}{% endif %}">
+      <input type="text" name="ammount" value="{% if paycheck %} {{ paycheck.ammount }}{% endif %}">
+      <label for="date-paid-">Paid Date</label>
+      <input type="date" name="date-paid" value="{% if paycheck %}{{ paycheck.date_paid }}{% else %}{{ today }}{% endif %}">
+      <textarea name="notes" rows="4" cols="40">{% if paycheck %} {{ paycheck.notes }}{% endif %}</textarea>
+      <select name="paycheck_id" id="">
+        {% for paycheck in paychecks %}
+          <h1>{% if paycheck %} {{ paycheck.name }}{% endif %}</h1>
+          <option value="{% if paycheck %} {{ paycheck._id }}{% endif %}">{% if paycheck %} {{ paycheck.name }}{% endif %}, {% if paycheck %} {{ paycheck.date_paid }}{% endif %}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <input type="submit" value="Submit">
+  </form>
+</div>
+{% endblock %}
