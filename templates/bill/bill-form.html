@@ -7,7 +7,7 @@
 
       <input type="hidden" name="_id" value="{% if bill %}{{ bill._id}}{% endif %}">
       <input required type="text" name="name" value="{% if bill %}{{ bill.name }}{% endif %}">
-      <input pattern="\d*" required type="text" name="ammount" value="{% if bill %}{{ bill.ammount }}{% endif %}">
+      <input pattern="\d*.\d{2}" required type="text" name="ammount" value="{% if bill %}{{ bill.ammount }}{% endif %}">
       <input required type="date" name="due-date" value="{% if bill %}{{ bill.due_date }}{% else %}{{ today }}{% endif %}">
       <textarea name="notes" rows="4" cols="40">{% if bill %}{{ bill.notes }}{% endif %}</textarea>
       <select name="paycheck_id" id="">
