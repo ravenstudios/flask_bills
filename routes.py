@@ -148,3 +148,13 @@ def delete_bill():
     Bill.query.filter_by(_id=args.get("_id")).delete()
     db.session.commit()
     return redirect("/")
+
+
+
+@app.route('/remove-bill', methods = ['GET', 'POST'])
+def remove_bill():
+    id = request.args.get('_id')
+    bill = Bill.query.get(id)
+    bill.paycheck_id = None
+    db.session.commit()
+    return redirect("/")
