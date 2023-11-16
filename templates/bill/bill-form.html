@@ -11,10 +11,20 @@
       <input required type="date" name="due-date" value="{% if bill %}{{ bill.due_date }}{% else %}{{ today }}{% endif %}">
       <textarea name="notes" rows="4" cols="40">{% if bill %}{{ bill.notes }}{% endif %}</textarea>
       <select name="paycheck_id" id="">
+        {% if paycheck %}
+          <option {{ paycheck[0]._id }} selected  value="{{ paycheck[0]._id }}">
+            {{ p_check.name }}, {{ p_check.date_paid }}
+          </option>
+        {% endif %}
         <option value=""></option>
-        {% for paycheck in paychecks %}
-          <h1>{% if bill %}{{ paycheck.name }}{% endif %}</h1>
-          <option {% if paycheck._id == bill.paycheck_id%} selected {% endif%} value="{% if bill %}{{ paycheck._id }}{% endif %}">{% if bill %}{{ paycheck.name }}{% endif %}, {% if bill %}{{ paycheck.date_paid }}{% endif %}</option>
+        {% for p_check in paychecks %}
+          {% if bill %}
+            <option {{ p_check._id}} selected  value="{{ p_check._id }}">{{ p_check.name }}, {{ p_check.date_paid }}</option>
+
+          {% else %}
+            <option {{ p_check._id}} value="{{ p_check._id }}">{{ p_check.name }}, {{ p_check.date_paid }}</option>
+          {% endif%}
+
         {% endfor %}
       </select>
     </div>

@@ -7,7 +7,7 @@
 
       <input type="hidden" name="_id" value="{% if paycheck %} {{ paycheck._id}}{% endif %}">
       <input type="text" name="name" value="{% if paycheck %} {{ paycheck.name }}{% endif %}">
-      <input type="text" name="ammount" value="{% if paycheck %} {{ paycheck.ammount }}{% endif %}">
+      <input pattern="\d*.\d{2}" type="text" name="ammount" value="{% if paycheck %} {{ paycheck.ammount }}{% endif %}">
       <label for="date-paid-">Paid Date</label>
       <input type="date" name="date-paid" value="{% if paycheck %}{{ paycheck.date_paid }}{% else %}{{ today }}{% endif %}">
       <textarea name="notes" rows="4" cols="40">{% if paycheck %} {{ paycheck.notes }}{% endif %}</textarea>

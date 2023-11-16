@@ -27,7 +27,7 @@ class Bill(db.Model):
         self.paycheck_id = bill["paycheck_id"][0]
 
     def __repr__(self):
-        return f"{self.name} {self.ammount}"
+        return f"{self.name}"
 
 class Paycheck(db.Model):
     __tablename__ = "paycheck"

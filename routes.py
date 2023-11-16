@@ -82,8 +82,12 @@ def show_bills():
 @app.route('/add-new-bill-form', methods = ['GET', 'POST'])
 def add_new_bill_form():
     if request.method == 'POST':
-        id = request.args.get('_id')
-        return render_template('bill/bill-form.html', bill=Bill.query.get(id))
+        if request.arge.get('paycheck-id'):
+            return render_template('bill/bill-form.html', paycheck=Paycheck.query.get(id))
+
+        else:
+            id = request.args.get('_id')
+            return render_template('bill/bill-form.html', bill=Bill.query.get(id))
     else:
         return render_template('bill/bill-form.html', today=datetime.datetime.now().strftime("%Y-%m-%d"))
 
