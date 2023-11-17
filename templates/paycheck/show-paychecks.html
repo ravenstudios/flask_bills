@@ -25,9 +25,12 @@
               </a>
           </td>
           <td>
-            <a id="{{ paycheck._id }}" href="/delete-paycheck?_id={{ paycheck._id }}">
+            <button type="button" onclick="confirmDelete('/delete-paycheck?_id={{ paycheck._id }}', 'paycheck')"  style="color: transparent; background-color: transparent; border: none; cursor: pointer;">
               <ion-icon size="large" style="color:red;" name="close-circle-outline"></ion-icon>
-            </a>
+            </button>
+            <!-- <a id="{{ paycheck._id }}" href="/delete-paycheck?_id={{ paycheck._id }}">
+              <ion-icon size="large" style="color:red;" name="close-circle-outline"></ion-icon>
+            </a> -->
           </td>
         </tr>
       </table>
@@ -59,14 +62,24 @@
                 </li>
             </td>
             <td>
-                <a href="/remove-bill?_id={{ bill._id }}">
+                <!-- <button onclick="myFunction()"><ion-icon size="large" style="color:red;" name="close-circle-outline"></ion-icon></button> -->
+                <!-- <a  href=> -->
+                <button type="button" onclick="confirmDelete('/remove-bill?_id={{ bill._id }}', 'bill')"  style="color: transparent; background-color: transparent; border: none; cursor: pointer;">
                   <ion-icon size="large" style="color:red;" name="close-circle-outline"></ion-icon>
-                </a>
+                </button>
             </td>
             <td>
               <a class="fas fa-home" href="/edit-bill-form?_id={{ bill._id }}">
                 <ion-icon size="large" style="color:blue;" name="create-outline"></ion-icon>
               </a>
+              <script type="text/javascript">
+                function confirmDelete(href, message){
+                  let c = confirm("Are you sure you want to remove this " +  message + "?");
+                  if(c){
+                    window.location.href = href;
+                  }
+                }
+              </script>
             </td>
           </tr>
         {% endfor %}
