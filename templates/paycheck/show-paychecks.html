@@ -1,10 +1,11 @@
 {% extends 'base-template.html' %}
 {% block content %}
-<div class="container">
-  <h2>Paychecks</h2>
-  {% for paycheck in paychecks %}
-  <table class="table">
-    <thread>
+
+
+{% for paycheck in paychecks %}
+  <div class="container columns">
+    <div class="column  notification is-link">
+      <table id="paycheck-info" class="table">
         <tr>
           <th>Name</th>
           <th>Ammount</th>
@@ -13,105 +14,85 @@
           <th>Edit</th>
           <th>Remove</th>
         </tr>
-    </thread>
-    <tbody>
-
-      <tr>
-        <td>{{ paycheck.name }}</td>
-        <td>{{ paycheck.ammount }}</td>
-        <td>{{ paycheck.date_paid }}</td>
-        <td>{{ paycheck.notes }}</td>
-          <td><a id="{{ paycheck._id }}" href="/delete-paycheck?_id={{ paycheck._id }}">
-            <ion-icon size="large" style="color:red;" name="close-circle-outline"></ion-icon>
-          </a>
-        </td>
-        <td>
-          <a href="/edit-paycheck-form?_id={{ paycheck._id }}">
-            <ion-icon size="large" style="color:green;" name="create-outline"></ion-icon>
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <table class="table">
-          <tr>
-            <th>Bill</th>
-            <th>Ammount</th>
-            <th>Remove</th>
-            <th>Edit</th>
-            <th>
-              <a href="/add-new-bill-form?paycheck-id={{ paycheck._id }}">
-                <ion-icon size="large" style="color:green;" name="add-circle-outline"></ion-icon>
+        <tr>
+          <td>{{ paycheck.name }}</td>
+          <td>{{ paycheck.ammount }}</td>
+          <td>{{ paycheck.date_paid }}</td>
+          <td>{{ paycheck.notes }}</td>
+            <td>
+              <a href="/edit-paycheck-form?_id={{ paycheck._id }}">
+                <ion-icon size="large" style="color:blue;" name="create-outline"></ion-icon>
               </a>
-            </th>
+          </td>
+          <td>
+            <a id="{{ paycheck._id }}" href="/delete-paycheck?_id={{ paycheck._id }}">
+              <ion-icon size="large" style="color:red;" name="close-circle-outline"></ion-icon>
+            </a>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="column is-fluid notification has-background-success">
+      <table id="bills" class="table">
+        <tr>
+          <th>Bill</th>
+          <th>Ammount</th>
+          <th>Remove</th>
+          <th>Edit</th>
+          <th>
+            <a href="/add-new-bill-form?paycheck-id={{ paycheck._id }}">
+              <ion-icon size="large" style="color:green;" name="add-circle-outline"></ion-icon>
+            </a>
+          </th>
+        </tr>
+        {% for bill in paycheck.bills%}
+          <tr>
+            <td>
+                <li>
+                  {{ bill.name }}
+                </li>
+            </td>
+            <td>
+                <li>
+                  ${{ bill.ammount }}
+                </li>
+            </td>
+            <td>
+                <a href="/remove-bill?_id={{ bill._id }}">
+                  <ion-icon size="large" style="color:red;" name="close-circle-outline"></ion-icon>
+                </a>
+            </td>
+            <td>
+              <a class="fas fa-home" href="/edit-bill-form?_id={{ bill._id }}">
+                <ion-icon size="large" style="color:blue;" name="create-outline"></ion-icon>
+              </a>
+            </td>
           </tr>
-          {% for bill in paycheck.bills%}
-            <tr>
-              <td>
-                  <li>
-                    {{ bill.name }}
-                  </li>
-              </td>
-              <td>
-                  <li>
-                    ${{ bill.ammount }}
-                  </li>
-              </td>
-              <td>
-                  <a href="/remove-bill?_id={{ bill._id }}">
-                    <ion-icon size="large" style="color:red;" name="close-circle-outline"></ion-icon>
-                  </a>
-              </td>
-              <td>
-                  <a class="fas fa-home" href="/edit-bill-form?_id={{ bill._id }}">
-                    <ion-icon size="large" style="color:green;" name="create-outline"></ion-icon>
-                  </a>
-              </td>
-            </tr>
-          {% endfor %}
-        </table>
-      </tr>
-      <tr>
-        <p>
+        {% endfor %}
+      </table>
+    </div>
+
+
+    <div class="column  mb-5 notification has-background-warning">
+      <table id="balance" class="table">
+        <tr>
+          <th>Total Bills</th>
+          <th>Bank</th>
+          <th>Balance</th>
+        </tr>
+        <tr>
           {% set total = paycheck.bills|sum(attribute='ammount') %}
-          Total: {{ total }}
-          Balance: {{ paycheck.ammount - total }}
-        </p>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  <hr>
-  <!-- <h2>Compleated Bills</h2>
-  <table>
-
-    <tr>
-      <th>Name</th>
-      <th>Notes</th>
-      <th>Assinged To</th>
-      <th>Date Entered</th>
-      <th>Date Compleated</th>
-      <th>Delete</th>
-      <th>Edit</th>
-      <th>Compleated</th>
-    </tr>
-
-    {% for item in bill %}
-      {% if item.compleated == True %}
-      <tr>
-            <td>{{ item.name }}</td>
-            <td>{{ item.notes }}</td>
-            <td>{{ item.assinged_to }}</td>
-            <td>{{ item.date_entered }}</td>
-            <td>{{ item.date_compleated }}</td>
-            <td><a href="/delete-bill?_id={{ item._id }}">DEL</a></td>
-            <td><a href="/edit-bill-form?_id={{ item._id }}">Edit</a></td>
-            <td><a href="/compleated-bill?_id={{ item._id }}">Compleated</a></td>
-      </tr>
-      {% endif %}
-    {% endfor %}
-  </table> -->
+          <td>{{ total }}</td>
+          <td>{{ paycheck.ammount }}</td>
+          <td> {{ paycheck.ammount - total }}</td>
+        </tr>
+      </table>
+    </div>
 
 
+  </div>
 
-</div>
+{% endfor %}
+
 {% endblock %}

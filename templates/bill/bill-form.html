@@ -3,8 +3,8 @@
 <div id="content">
   <form class="" action="{% if bill %}edit-bill{% else %}add-new-bill{% endif %}" method="post">
     <div class="">
-      <h1>{% if bill %}EDIT BILL{% else %}ADD NEW BILL{% endif %}</h1>
-
+      <h1>Paycheck_id:{{paycheck}}</h1>
+      <h1>{% if bill %}EDIT BILL{% elif paycheck%}ADD NEW BILL TO PAYCHECK{% else %}ADD NEW BILL{% endif %}</h1>
       <input type="hidden" name="_id" value="{% if bill %}{{ bill._id}}{% endif %}">
       <input required type="text" name="name" value="{% if bill %}{{ bill.name }}{% endif %}">
       <input pattern="\d*.\d{2}" required type="text" name="ammount" value="{% if bill %}{{ bill.ammount }}{% endif %}">
@@ -12,17 +12,17 @@
       <textarea name="notes" rows="4" cols="40">{% if bill %}{{ bill.notes }}{% endif %}</textarea>
       <select name="paycheck_id" id="">
         {% if paycheck %}
-          <option {{ paycheck[0]._id }} selected  value="{{ paycheck[0]._id }}">
-            {{ p_check.name }}, {{ p_check.date_paid }}
+          <option {{ paycheck._id }} selected  value="{{ paycheck._id }}">
+          {{ paycheck.name }}, {{ paycheck.date_paid }}
           </option>
         {% endif %}
         <option value=""></option>
-        {% for p_check in paychecks %}
+        {% for paycheck in paychecks %}
           {% if bill %}
-            <option {{ p_check._id}} selected  value="{{ p_check._id }}">{{ p_check.name }}, {{ p_check.date_paid }}</option>
+            <option {{ paycheck._id}} selected  value="{{ paycheck._id }}">{{ paycheck.name }}, {{ paycheck.date_paid }}</option>
 
           {% else %}
-            <option {{ p_check._id}} value="{{ p_check._id }}">{{ p_check.name }}, {{ p_check.date_paid }}</option>
+            <option {{ paycheck._id}} value="{{ paycheck._id }}">{{ paycheck.name }}, {{ paycheck.date_paid }}</option>
           {% endif%}
 
         {% endfor %}
