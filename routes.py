@@ -107,7 +107,7 @@ def add_new_bill():
 def edit_bill_form():
     id = request.args.get('_id')
     print(f"id:{id}")
-    return render_template('bill/bill-form.html', bill=Bill.query.get(id), paychecks=Paycheck.query.all())
+    return render_template('bill/bill-form.html', bill=Bill.query.get(id), paychecks=Paycheck.query.all(), today=datetime.datetime.now().strftime("%Y-%m-%d"))
 
 
 
