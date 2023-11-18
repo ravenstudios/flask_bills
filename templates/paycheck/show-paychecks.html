@@ -16,7 +16,7 @@
         </tr>
         <tr>
           <td>{{ paycheck.name }}</td>
-          <td>{{ paycheck.ammount }}</td>
+          <td>{{ paycheck.amount }}</td>
           <td>{{ paycheck.date_paid }}</td>
           <td>{{ paycheck.notes }}</td>
             <td>
@@ -59,7 +59,7 @@
             </td>
             <td>
                 <li>
-                  ${{ bill.ammount }}
+                  ${{ bill.amount }}
                 </li>
             </td>
             <td>
@@ -85,21 +85,20 @@
             </td>
             <td>
               <label for="paid-cb">Paid</label>
-              <input type="checkbox"  {% if bill.is_paid %}checked{% endif %} onclick="markPaid({{ bill._id }})" id="paid-cb" value="Paid" >
+              <input type="checkbox"  {% if bill.is_paid %}checked{% endif %} onclick="markPaid({{ bill._id }})" class="paid-cb" value="Paid" >
             </td>
             <script type="text/javascript">
               function markPaid(billId){
-                cbChecked = document.getElementById('paid-cb').checked
-                console.log("cbChecked:"+cbChecked)
-                if(cbChecked){
-                  console.log("checked")
-                  window.location.href = "/mark-bill-paid?_id=" + billId;
-                }
-                else{
-                  console.log(" not checked")
-                  window.location.href = "/mark-bill-unpaid?_id=" + billId;
-                }
+                window.onclick = e => {
+                    if(e.target.checked){
+                      window.location.href = "/mark-bill-paid?_id=" + billId;
 
+                    }
+                    else{
+                      window.location.href = "/mark-bill-unpaid?_id=" + billId;
+
+                    }
+                }
               }
             </script>
           </tr>
@@ -116,14 +115,10 @@
           <th>Balance</th>
         </tr>
         <tr>
-          {%
-            set total = paycheck.bills|sum(attribute='ammount')
-            total = []
-            
-          %}
+          {% set total = paycheck.bills|selectattr('is_paid', '==', False)|map(attribute='amount')|sum %}
           <td>{{ total }}</td>
-          <td>{{ paycheck.ammount }}</td>
-          <td> {{ paycheck.ammount - total }}</td>
+          <td>{{ paycheck.amount }}</td>
+          <td> {{ paycheck.amount - total }}</td>
         </tr>
       </table>
     </div>

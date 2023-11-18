@@ -5,7 +5,7 @@
   <table>
     <tr class="notification is-warning">
       <th>Name</th>
-      <th>Ammount</th>
+      <th>amount</th>
       <th>Due Date</th>
       <th>Date Paid</th>
       <th>Is Paid</th>
@@ -15,7 +15,7 @@
       {% if bill.paycheck_id == "" and bill.is_paid != True %}
         <tr class="notification is-warning">
               <td>{{ bill.name }}</td>
-              <td>{{ bill.ammount }}</td>
+              <td>{{ bill.amount }}</td>
               <td>{{ bill.due_date }}</td>
               <td>{{ bill.date_paid }}</td>
               <td>{{ bill.is_paid }}</td>
@@ -33,7 +33,7 @@
   <table>
     <tr class="notification is-link">
       <th>Name</th>
-      <th>Ammount</th>
+      <th>amount</th>
       <th>Due Date</th>
       <th>Date Paid</th>
       <th>Is Paid</th>
@@ -43,7 +43,7 @@
       {% if bill.is_paid == True %}
         <tr class="notification is-link">
               <td>{{ bill.name }}</td>
-              <td>{{ bill.ammount }}</td>
+              <td>{{ bill.amount }}</td>
               <td>{{ bill.due_date }}</td>
               <td>{{ bill.date_paid }}</td>
               <td>{{ bill.is_paid }}</td>
@@ -60,7 +60,7 @@
   <table>
     <tr class="notification is-success">
       <th>Name</th>
-      <th>Ammount</th>
+      <th>amount</th>
       <th>Due Date</th>
       <th>Date Paid</th>
       <th>Is Paid</th>
@@ -69,7 +69,7 @@
     {% for bill in bills %}
       <tr class="notification is-success">
             <td>{{ bill.name }}</td>
-            <td>{{ bill.ammount }}</td>
+            <td>{{ bill.amount }}</td>
             <td>{{ bill.due_date }}</td>
             <td>{{ bill.date_paid }}</td>
             <td>{{ bill.is_paid }}</td>

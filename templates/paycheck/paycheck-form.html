@@ -9,8 +9,8 @@
       <input type="text" name="name" value="{% if paycheck %} {{ paycheck.name }}{% endif %}">
 
 
-      <input pattern="\d*(\.\d{2})?" required type="text" name="ammount" value="{% if paycheck %}{{ paycheck.ammount }}{% endif %}">
-      <!-- <input pattern="\d*(\.\d{2})?" required type="text" name="ammount" value="{% if bill %}{{ bill.ammount }}{% endif %}"> -->
+      <input pattern="\d*(\.\d{2})?" required type="text" name="amount" value="{% if paycheck %}{{ paycheck.amount }}{% endif %}">
+      <!-- <input pattern="\d*(\.\d{2})?" required type="text" name="amount" value="{% if bill %}{{ bill.amount }}{% endif %}"> -->
 
       <label for="date-paid-">Paid Date</label>
       <input type="date" name="date-paid" value="{% if paycheck %}{{ paycheck.date_paid }}{% else %}{{ today }}{% endif %}">

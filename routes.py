@@ -53,7 +53,7 @@ def edit_paycheck():
     form_data = request.form.to_dict(flat=False)
     paycheck = Paycheck.query.get(form_data["_id"])
     paycheck.name = form_data["name"][0]
-    paycheck.ammount = form_data["ammount"][0]
+    paycheck.amount = form_data["amount"][0]
     date_arr = form_data["date-paid"][0].split("-")
     date = datetime.datetime(int(date_arr[0]), int(date_arr[1]), int(date_arr[2]))
     paycheck.date_paid = date
@@ -116,7 +116,7 @@ def edit_bill():
     form_data = request.form.to_dict(flat=False)
     bill = Bill.query.get(form_data["_id"])
     bill.name = form_data["name"][0]
-    bill.ammount = form_data["ammount"][0]
+    bill.amount = form_data["amount"][0]
     bill.notes = form_data["notes"][0]
     date_arr = form_data["due-date"][0].split("-")
     date = datetime.datetime(int(date_arr[0]), int(date_arr[1]), int(date_arr[2]))
