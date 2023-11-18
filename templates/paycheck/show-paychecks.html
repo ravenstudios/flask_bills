@@ -43,6 +43,7 @@
           <th>Ammount</th>
           <th>Remove</th>
           <th>Edit</th>
+          <th>Paid</th>
           <th>
             <a href="/add-new-bill-form?paycheck-id={{ paycheck._id }}">
               <ion-icon size="large" style="color:green;" name="add-circle-outline"></ion-icon>
@@ -72,6 +73,7 @@
               <a class="fas fa-home" href="/edit-bill-form?_id={{ bill._id }}">
                 <ion-icon size="large" style="color:blue;" name="create-outline"></ion-icon>
               </a>
+
               <script type="text/javascript">
                 function confirmDelete(href, message){
                   let c = confirm("Are you sure you want to remove this " +  message + "?");
@@ -81,6 +83,25 @@
                 }
               </script>
             </td>
+            <td>
+              <label for="paid-cb">Paid</label>
+              <input type="checkbox"  {% if bill.is_paid %}checked{% endif %} onclick="markPaid({{ bill._id }})" id="paid-cb" value="Paid" >
+            </td>
+            <script type="text/javascript">
+              function markPaid(billId){
+                cbChecked = document.getElementById('paid-cb').checked
+                console.log("cbChecked:"+cbChecked)
+                if(cbChecked){
+                  console.log("checked")
+                  window.location.href = "/mark-bill-paid?_id=" + billId;
+                }
+                else{
+                  console.log(" not checked")
+                  window.location.href = "/mark-bill-unpaid?_id=" + billId;
+                }
+
+              }
+            </script>
           </tr>
         {% endfor %}
       </table>
@@ -95,7 +116,11 @@
           <th>Balance</th>
         </tr>
         <tr>
-          {% set total = paycheck.bills|sum(attribute='ammount') %}
+          {%
+            set total = paycheck.bills|sum(attribute='ammount')
+            total = []
+            
+          %}
           <td>{{ total }}</td>
           <td>{{ paycheck.ammount }}</td>
           <td> {{ paycheck.ammount - total }}</td>

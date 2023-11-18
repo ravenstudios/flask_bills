@@ -163,3 +163,21 @@ def remove_bill():
     bill.paycheck_id = None
     db.session.commit()
     return redirect("/")
+
+
+
+@app.route('/mark-bill-paid', methods = ['GET'])
+def mark_bill_paid():
+    id = request.args.get('_id')
+    bill = Bill.query.get(id)
+    bill.is_paid = True
+    db.session.commit()
+    return redirect("/")
+
+@app.route('/mark-bill-unpaid', methods = ['GET'])
+def mark_bill_unpaid():
+    id = request.args.get('_id')
+    bill = Bill.query.get(id)
+    bill.is_paid = False
+    db.session.commit()
+    return redirect("/")
