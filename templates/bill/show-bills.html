@@ -1,19 +1,120 @@
 {% extends 'base-template.html' %}
 {% block content %}
-<div id="content">
-  <h1>Bills Not Assigned</h1>
-  <table>
-    <tr class="notification is-warning">
-      <th>Name</th>
-      <th>amount</th>
-      <th>Due Date</th>
-      <th>Date Paid</th>
-      <th>Is Paid</th>
-      <th>Notes</th>
-    </tr>
-    {% for bill in bills %}
-      {% if bill.paycheck_id == "" and bill.is_paid != True %}
-        <tr class="notification is-warning">
+
+
+
+<div class="container columns is-multiline is-centered">
+  <div id="unassigned-bills" class="is-half column">
+    <h1>UNASSIGNED BILLS</h1>
+    <table id="Unassigned Bills" class="table">
+      <tr class="notification is-warning">
+        <th>Name</th>
+        <th>amount</th>
+        <th>Due Date</th>
+        <th>Date Paid</th>
+        <th>Is Paid</th>
+        <th>Notes</th>
+        <th>Del</th>
+        <th>Edit</th>
+        <th>Paid</th>
+      </tr>
+      {% for bill in bills %}
+        {% if bill.paycheck_id != "True" %}
+          <tr class="notification is-warning">
+                <td>{{ bill.name }}</td>
+                <td>{{ bill.amount }}</td>
+                <td>{{ bill.due_date }}</td>
+                <td>{{ bill.date_paid }}</td>
+                <td>{{ bill.is_paid }}</td>
+                <td>{{ bill.notes }}</td>
+
+                <td>
+                  <button type="button" name="button" onclick="confirmDelete('/remove-bill?_id={{ bill._id }}', 'bill')" style="color: transparent; background-color: transparent; border: none; cursor: pointer;">
+                    <ion-icon size="large" style="color:red;" name="close-circle-outline"></ion-icon>
+                  </button>
+                </td>
+                <td>
+                  <a href="/edit-bill-form?_id={{ bill._id }}">
+                    <ion-icon size="large" style="color:white;" name="create-outline"></ion-icon>
+                  </a>
+                </td>
+                <td>
+                  <a href="/paid-bill?_id={{ bill._id }}">
+                    <ion-icon size="large" style="color:green;" name="cash-outline"></ion-icon>
+                  </a>
+                </td>
+          </tr>
+          {% endif %}
+        {% endfor %}
+    </table>
+  </div>
+</div>
+
+<div class="container columns is-multiline is-centered">
+  <div id="Paid Bills" class="is-half column">
+    <h1>PAID BILLS</h1>
+    <table class="table">
+      <tr class="notification is-link">
+        <th>Name</th>
+        <th>amount</th>
+        <th>Due Date</th>
+        <th>Date Paid</th>
+        <th>Is Paid</th>
+        <th>Notes</th>
+        <th>Del</th>
+        <th>Edit</th>
+        <th>Un-Pay</th>
+      </tr>
+      {% for bill in bills %}
+        {% if bill.is_paid == True %}
+          <tr class="notification is-link">
+                <td>{{ bill.name }}</td>
+                <td>{{ bill.amount }}</td>
+                <td>{{ bill.due_date }}</td>
+                <td>{{ bill.date_paid }}</td>
+                <td>{{ bill.is_paid }}</td>
+                <td>{{ bill.notes }}</td>
+
+                <td>
+                  <button type="button" name="button" onclick="confirmDelete('/remove-bill?_id={{ bill._id }}', 'bill')" style="color: transparent; background-color: transparent; border: none; cursor: pointer;">
+                    <ion-icon size="large" style="color:red;" name="close-circle-outline"></ion-icon>
+                  </button>
+                </td>
+                <td>
+                  <a href="/edit-bill-form?_id={{ bill._id }}">
+                  <ion-icon size="large" style="color:white;" name="create-outline"></ion-icon>
+                </a>
+                </td>
+                <td>
+                  <a href="/unpay-bill?_id={{ bill._id }}">
+                    <ion-icon size="large" style="color:white;" name="arrow-undo-circle-outline"></ion-icon>
+                  </a>
+              </td>
+          </tr>
+          {% endif %}
+        {% endfor %}
+    </table>
+  </div>
+</div>
+
+
+<div class="container columns is-multiline is-centered">
+  <div id="All Bills" class="is-half column">
+    <h1>ALL BILLS</h1>
+    <table class="table">
+      <tr class="notification is-success">
+        <th>Name</th>
+        <th>amount</th>
+        <th>Due Date</th>
+        <th>Date Paid</th>
+        <th>Is Paid</th>
+        <th>Notes</th>
+        <th>Del</th>
+        <th>Edit</th>
+        <th>Paid</th>
+      </tr>
+      {% for bill in bills %}
+        <tr class="notification is-success">
               <td>{{ bill.name }}</td>
               <td>{{ bill.amount }}</td>
               <td>{{ bill.due_date }}</td>
@@ -22,69 +123,22 @@
               <td>{{ bill.notes }}</td>
 
               <td>
-                <button type="button" name="button" onclick="confirmDelete('/remove-bill?_id={{ bill._id }}', 'bill')">DEL</button>
+                <button type="button" name="button" onclick="confirmDelete('/remove-bill?_id={{ bill._id }}', 'bill')" style="color: transparent; background-color: transparent; border: none; cursor: pointer;">
+                  <ion-icon size="large" style="color:red;" name="close-circle-outline"></ion-icon>
+                </button>
               </td>
-
-              <td><a href="/edit-bill-form?_id={{ bill._id }}">Edit</a></td>
+              <td>
+                <a href="/edit-bill-form?_id={{ bill._id }}">
+                <ion-icon size="large" style="color:white;" name="create-outline"></ion-icon>
+              </a>
+              </td>
               <td><a href="/paid-bill?_id={{ bill._id }}">Paid</a></td>
         </tr>
-        {% endif %}
-      {% endfor %}
-  </table>
-
-  <h1>Bills Paid</h1>
-  <table>
-    <tr class="notification is-link">
-      <th>Name</th>
-      <th>amount</th>
-      <th>Due Date</th>
-      <th>Date Paid</th>
-      <th>Is Paid</th>
-      <th>Notes</th>
-    </tr>
-    {% for bill in bills %}
-      {% if bill.is_paid == True %}
-        <tr class="notification is-link">
-              <td>{{ bill.name }}</td>
-              <td>{{ bill.amount }}</td>
-              <td>{{ bill.due_date }}</td>
-              <td>{{ bill.date_paid }}</td>
-              <td>{{ bill.is_paid }}</td>
-              <td>{{ bill.notes }}</td>
-
-              <td><button type="button" name="button" onclick="confirmDelete('/remove-bill?_id={{ bill._id }}', 'bill')">DEL</button></td>
-              <td><a href="/unpay-bill?_id={{ bill._id }}">Unpay</a></td>
-
-        </tr>
-        {% endif %}
-      {% endfor %}
-  </table>
-  <h1>All Bills</h1>
-  <table>
-    <tr class="notification is-success">
-      <th>Name</th>
-      <th>amount</th>
-      <th>Due Date</th>
-      <th>Date Paid</th>
-      <th>Is Paid</th>
-      <th>Notes</th>
-    </tr>
-    {% for bill in bills %}
-      <tr class="notification is-success">
-            <td>{{ bill.name }}</td>
-            <td>{{ bill.amount }}</td>
-            <td>{{ bill.due_date }}</td>
-            <td>{{ bill.date_paid }}</td>
-            <td>{{ bill.is_paid }}</td>
-            <td>{{ bill.notes }}</td>
-            <td><button type="button" name="button" onclick="confirmDelete('/remove-bill?_id={{ bill._id }}', 'bill')">DEL</button></td>
-            <td><a href="/edit-bill-form?_id={{ bill._id }}">Edit</a></td>
-      </tr>
-    {% endfor %}
-  </table>
-
-
+        {% endfor %}
+    </table>
+  </div>
 </div>
+
 <script type="text/javascript">
   function confirmDelete(href, message){
     let c = confirm("Are you sure you want to remove this " +  message + "?");
