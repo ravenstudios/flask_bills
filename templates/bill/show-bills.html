@@ -21,7 +21,10 @@
               <td>{{ bill.is_paid }}</td>
               <td>{{ bill.notes }}</td>
 
-              <td><a href="/delete-bill?_id={{ bill._id }}">DEL</a></td>
+              <td>
+                <button type="button" name="button" onclick="confirmDelete('/remove-bill?_id={{ bill._id }}', 'bill')">DEL</button>
+              </td>
+
               <td><a href="/edit-bill-form?_id={{ bill._id }}">Edit</a></td>
               <td><a href="/paid-bill?_id={{ bill._id }}">Paid</a></td>
         </tr>
@@ -49,7 +52,7 @@
               <td>{{ bill.is_paid }}</td>
               <td>{{ bill.notes }}</td>
 
-              <td><a href="/delete-bill?_id={{ bill._id }}">DEL</a></td>
+              <td><button type="button" name="button" onclick="confirmDelete('/remove-bill?_id={{ bill._id }}', 'bill')">DEL</button></td>
               <td><a href="/unpay-bill?_id={{ bill._id }}">Unpay</a></td>
 
         </tr>
@@ -74,42 +77,20 @@
             <td>{{ bill.date_paid }}</td>
             <td>{{ bill.is_paid }}</td>
             <td>{{ bill.notes }}</td>
-            <td><a href="/delete-bill?_id={{ bill._id }}">DEL</a></td>
+            <td><button type="button" name="button" onclick="confirmDelete('/remove-bill?_id={{ bill._id }}', 'bill')">DEL</button></td>
             <td><a href="/edit-bill-form?_id={{ bill._id }}">Edit</a></td>
       </tr>
     {% endfor %}
   </table>
-  <!-- <h2>Compleated Bills</h2>
-  <table>
-
-    <tr class="notification is-link">
-      <th>Name</th>
-      <th>Notes</th>
-      <th>Assinged To</th>
-      <th>Date Entered</th>
-      <th>Date Compleated</th>
-      <th>Delete</th>
-      <th>Edit</th>
-      <th>Compleated</th>
-    </tr>
-
-    {% for item in bill %}
-      {% if item.compleated == True %}
-      <tr class="notification is-link">
-            <td>{{ item.name }}</td>
-            <td>{{ item.notes }}</td>
-            <td>{{ item.assinged_to }}</td>
-            <td>{{ item.date_entered }}</td>
-            <td>{{ item.date_compleated }}</td>
-            <td><a href="/delete-bill?_id={{ item._id }}">DEL</a></td>
-            <td><a href="/edit-bill-form?_id={{ item._id }}">Edit</a></td>
-            <td><a href="/compleated-bill?_id={{ item._id }}">Compleated</a></td>
-      </tr>
-      {% endif %}
-    {% endfor %}
-  </table> -->
-
 
 
 </div>
+<script type="text/javascript">
+  function confirmDelete(href, message){
+    let c = confirm("Are you sure you want to remove this " +  message + "?");
+    if(c){
+      window.location.href = href;
+    }
+  }
+</script>
 {% endblock %}
