@@ -4,25 +4,43 @@
   <form class="" action="{% if paycheck %}edit-paycheck{%else%}add-new-paycheck{% endif %}" method="post">
     <div class="">
       <h1>{% if paycheck %}EDIT PAYCHECK{% else %}ADD NEW PAYCHECK{% endif %}</h1>
-
       <input type="hidden" name="_id" value="{% if paycheck %} {{ paycheck._id}}{% endif %}">
-      <input type="text" name="name" value="{% if paycheck %} {{ paycheck.name }}{% endif %}">
 
+      <div class="field">
+        <label class="label">Name</label>
+        <div class="control">
+          <input class="input" type="text" name="name" value="{% if paycheck %} {{ paycheck.name }}{% endif %}" placeholder="Name of paycheck">
+        </div>
+      </div>
 
-      <input pattern="\d*(\.\d{2})?" required type="text" name="amount" value="{% if paycheck %}{{ paycheck.amount }}{% endif %}">
-      <!-- <input pattern="\d*(\.\d{2})?" required type="text" name="amount" value="{% if bill %}{{ bill.amount }}{% endif %}"> -->
+      <div class="field">
+        <label class="label">Amount</label>
+        <div class="control">
+          <input class="input" pattern="\d*(\.\d{2})?" required type="text" name="amount" value="{% if paycheck %}{{ paycheck.amount }}{% endif %}" placeholder="Paycheck amount">
+        </div>
+      </div>
 
-      <label for="date-paid-">Paid Date</label>
-      <input type="date" name="date-paid" value="{% if paycheck %}{{ paycheck.date_paid }}{% else %}{{ today }}{% endif %}">
-      <textarea name="notes" rows="4" cols="40">{% if paycheck %} {{ paycheck.notes }}{% endif %}</textarea>
-      <select name="paycheck_id" id="">
-        {% for paycheck in paychecks %}
-          <h1>{% if paycheck %} {{ paycheck.name }}{% endif %}</h1>
-          <option value="{% if paycheck %} {{ paycheck._id }}{% endif %}">{% if paycheck %} {{ paycheck.name }}{% endif %}, {% if paycheck %} {{ paycheck.date_paid }}{% endif %}</option>
-        {% endfor %}
-      </select>
+      <div class="field">
+        <label class="label">Date</label>
+        <div class="control">
+          <input type="date" name="date-paid" value="{% if paycheck %}{{ paycheck.date_paid }}{% else %}{{ today }}{% endif %}">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Notes</label>
+        <div class="control">
+          <textarea class="textarea" name="notes" rows="4" cols="40">{% if paycheck %} {{ paycheck.notes }}{% endif %}</textarea>
+        </div>
+      </div>
+
+      <div class="field">
+        <!-- <label class="label">Name</label> -->
+        <div class="control">
+          <input class="submit" type="submit" value="Submit">
+        </div>
+      </div>
     </div>
-    <input type="submit" value="Submit">
   </form>
 </div>
 {% endblock %}
