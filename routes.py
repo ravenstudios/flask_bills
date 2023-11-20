@@ -130,7 +130,7 @@ def edit_bill():
 def paid_bill():
     id = request.args.get('_id')
     bill = Bill.query.get(id)
-    bill.date_compleated = datetime.datetime.now()
+    bill.date_paid = datetime.datetime.now()
     bill.is_paid = True
     db.session.commit()
     return render_template('bill/show-bills.html', bills=Bill.query.all())
@@ -149,10 +149,12 @@ def unpay_bill():
 
 @app.route('/delete-bill', methods = ['GET', 'POST'])
 def delete_bill():
-    args = request.args
-    Bill.query.filter_by(_id=args.get("_id")).delete()
+    print(request.json)
+    Bill.query.filter_by(_id=request.json["_id"]).delete()
+    # args = request.args
+    # Bill.query.filter_by(_id=args.get("_id")).delete()
     db.session.commit()
-    return redirect("/")
+    return "", 201
 
 
 
