@@ -21,7 +21,7 @@
         {% if bill.paycheck_id != "True" %}
           <tr class="notification is-link">
                 <td>{{ bill.name }}</td>
-                <td>{{ bill.amount }}</td>
+                <td class="currency">{{ bill.amount }}</td>
                 <td>{{ bill.due_date }}</td>
                 <td>{{ bill.date_paid }}</td>
                 <td>{{ bill.is_paid }}</td>
@@ -61,7 +61,7 @@
       {% for bill in bills %}
         <tr class="notification is-success">
               <td>{{ bill.name }}</td>
-              <td>{{ bill.amount }}</td>
+              <td class="currency">{{ bill.amount }}</td>
               <td>{{ bill.due_date }}</td>
               <td>{{ bill.date_paid }}</td>
               <td>{{ bill.is_paid }}</td>

@@ -12,7 +12,6 @@
           <div class="">
             <h1>{% if bill %}EDIT BILL{% elif paycheck%}ADD NEW BILL TO PAYCHECK{% else %}ADD NEW BILL{% endif %}</h1>
             <!-- <input type="hidden" name="_id" value="{% if paycheck %} {{ paycheck._id}}{% endif %}"> -->
-
             <div class="field">
               <label class="label">Name</label>
               <div class="control">
@@ -26,7 +25,6 @@
                 <input class="input" pattern="\d*(\.\d{2})?" required type="text" name="amount" value="{% if bill %}{{ bill.amount }}{% endif %}" placeholder="Bill amount">
               </div>
             </div>
-
             <div class="field">
               <label class="label">Due Date</label>
               <div class="control">

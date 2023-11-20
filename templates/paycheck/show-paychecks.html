@@ -16,7 +16,7 @@
         </tr>
         <tr>
           <td>{{ paycheck.name }}</td>
-          <td>{{ paycheck.amount }}</td>
+          <td class="currency">{{ paycheck.amount }}</td>
           <td>{{ paycheck.date_paid }}</td>
           <td>{{ paycheck.notes }}</td>
             <td>
@@ -58,8 +58,8 @@
                 </li>
             </td>
             <td>
-                <li>
-                  ${{ bill.amount }}
+                <li class="currency">
+                  {{ bill.amount }}
                 </li>
             </td>
             <td>
@@ -70,7 +70,6 @@
                 </button>
             </td>
             <td>
-              <h1>{{ bill._id}}</h1>
               <a class="fas fa-home" href="/edit-bill-form?_id={{ bill._id }}">
                 <ion-icon size="large" style="color:blue;" name="create-outline"></ion-icon>
               </a>
@@ -117,9 +116,9 @@
         </tr>
         <tr>
           {% set total = paycheck.bills|selectattr('is_paid', '==', False)|map(attribute='amount')|sum %}
-          <td>{{ total }}</td>
-          <td>{{ paycheck.amount }}</td>
-          <td> {{ paycheck.amount - total }}</td>
+          <td class="currency">{{ total }}</td>
+          <td class="currency">{{ paycheck.amount }}</td>
+          <td class="currency"> {{ paycheck.amount - total }}</td>
         </tr>
       </table>
     </div>
