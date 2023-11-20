@@ -114,7 +114,9 @@ def edit_bill_form():
 @app.route('/edit-bill', methods = ['GET', 'POST'])
 def edit_bill():
     form_data = request.form.to_dict(flat=False)
+    print(f"BILL:{form_data}")
     bill = Bill.query.get(form_data["_id"])
+
     bill.name = form_data["name"][0]
     bill.amount = form_data["amount"][0]
     bill.notes = form_data["notes"][0]

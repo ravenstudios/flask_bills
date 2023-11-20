@@ -1,16 +1,17 @@
 {% extends 'base-template.html' %}
 {% block content %}
 
-<input type="hidden" name="_id" value="{% if bill %}{{ bill._id}}{% endif %}">
+
 
 <div id="content">
   <form class="" action="{% if bill %}edit-bill{% else %}add-new-bill{% endif %}" method="post">
+    <input type="hidden" name="_id" value="{% if bill %}{{ bill._id}}{% endif %}">
     <div class="">
       <div id="content">
         <form class="" action="{% if paycheck %}edit-paycheck{%else%}add-new-paycheck{% endif %}" method="post">
           <div class="">
             <h1>{% if bill %}EDIT BILL{% elif paycheck%}ADD NEW BILL TO PAYCHECK{% else %}ADD NEW BILL{% endif %}</h1>
-            <input type="hidden" name="_id" value="{% if paycheck %} {{ paycheck._id}}{% endif %}">
+            <!-- <input type="hidden" name="_id" value="{% if paycheck %} {{ paycheck._id}}{% endif %}"> -->
 
             <div class="field">
               <label class="label">Name</label>
