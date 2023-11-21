@@ -53,14 +53,14 @@
         {% for bill in paycheck.bills%}
           <tr>
             <td>
-                <li>
+
                   {{ bill.name }}
-                </li>
+
             </td>
-            <td>
-                <li class="currency">
+            <td class="currency">
+
                   {{ bill.amount }}
-                </li>
+
             </td>
             <td>
                 <!-- <button onclick="myFunction()"><ion-icon size="large" style="color:red;" name="close-circle-outline"></ion-icon></button> -->
@@ -73,15 +73,6 @@
               <a class="fas fa-home" href="/edit-bill-form?_id={{ bill._id }}">
                 <ion-icon size="large" style="color:blue;" name="create-outline"></ion-icon>
               </a>
-
-              <script type="text/javascript">
-                function confirmDelete(href, message){
-                  let c = confirm("Are you sure you want to remove this " +  message + "?");
-                  if(c){
-                    window.location.href = href;
-                  }
-                }
-              </script>
             </td>
             <td>
               <label for="paid-cb">Paid</label>
@@ -125,7 +116,14 @@
 
 
   </div>
-
+  <script type="text/javascript">
+    function confirmDelete(href, message){
+      let c = confirm("Are you sure you want to remove this " +  message + "?");
+      if(c){
+        window.location.href = href;
+      }
+    }
+  </script>
 {% endfor %}
 
 {% endblock %}
