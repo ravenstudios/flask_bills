@@ -10,13 +10,25 @@ import datetime
 
 @app.route('/')
 def index():
-    return render_template('paycheck/show-paychecks.html', paychecks=Paycheck.query.all())
+    paychecks = None
+    try:
+        paychecks=Paycheck.query.all()
+        return render_template('paycheck/show-paychecks.html', paychecks=paychecks)
+    except Exception as e:
+        print(e)
+    return render_template('paycheck/show-paychecks.html')
 
 
 
 @app.route('/show-paychecks', methods = ['GET', 'POST'])
 def show_paychecks():
-    return render_template('paycheck/show-paychecks.html', bills=Bill.query.all(), paychecks=Paycheck.query.all())
+    paychecks = None
+    try:
+        paychecks=Paycheck.query.all()
+        return render_template('paycheck/show-paychecks.html', bills=Bill.query.all(), paychecks=paychecks)
+    except Exception as e:
+        print(e)
+    return render_template('paycheck/show-paychecks.html')
 
 
 
@@ -75,7 +87,11 @@ def delete_paycheck():
 # *******************Bills**************************
 @app.route('/show-bills', methods = ['GET', 'POST'])
 def show_bills():
-    return render_template('bill/show-bills.html', bills=Bill.query.all())
+    try:
+        return render_template('bill/show-bills.html', bills=Bill.query.all())
+    except Exception as e:
+        print(e)
+    return render_template('bill/show-bills.html')
 
 
 
