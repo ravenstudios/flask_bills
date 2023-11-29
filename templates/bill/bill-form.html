@@ -38,25 +38,16 @@
                 <textarea class="textarea" name="notes" rows="4" cols="40">{% if bill %}{{ bill.notes }}{% endif %}</textarea>
               </div>
             </div>
-
             <div class="field">
+            
               <label class="label">Assigned Paycheck</label>
               <div class="control">
                 <select class="select" name="paycheck_id" id="">
                 <option value=""></option>
-                  {% if paycheck %}
-                    <option {{ paycheck._id }} selected  value="{{ paycheck._id }}">
-                    {{ paycheck.name }}, {{ paycheck.date_paid }}
-                    </option>
-                  {% endif %}
 
                   {% for paycheck in paychecks %}
-                    {% if bill %}
-                      <option {{ paycheck._id}} selected  value="{{ paycheck._id }}">{{ paycheck.name }}, {{ paycheck.date_paid }}</option>
+                    <option {% if bill.paycheck_id == paycheck._id %} selected {% endif %} value="{{ paycheck._id }}">{{ paycheck.name }}, {{ paycheck.date_paid }}</option>
 
-                    {% else %}
-                      <option {{ paycheck._id}} value="{{ paycheck._id }}">{{ paycheck.name }}, {{ paycheck.date_paid }}</option>
-                    {% endif%}
 
                   {% endfor %}
                 </select>

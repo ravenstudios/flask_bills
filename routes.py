@@ -100,7 +100,7 @@ def add_new_bill_form():
     if request.method == 'GET':
         id = request.args.get('paycheck-id')
         if id:
-            return render_template('bill/bill-form.html', paycheck=Paycheck.query.get(id), today=datetime.datetime.now().strftime("%Y-%m-%d"))
+            return render_template('bill/bill-form.html', paychecks=Paycheck.query.all(), paycheck=Paycheck.query.get(id), today=datetime.datetime.now().strftime("%Y-%m-%d"))
         else:
             return render_template('bill/bill-form.html', paychecks=Paycheck.query.all(), today=datetime.datetime.now().strftime("%Y-%m-%d"))
     if request.method == 'POST':
