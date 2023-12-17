@@ -1,0 +1,104 @@
+{% extends 'base-template.html' %}
+{% block content %}
+
+
+
+<div class="container columns is-multiline is-centered">
+  <div id="unassigned-bills" class="is-half column">
+    <h1>UNASSIGNED BILLS</h1>
+    <table id="Unassigned Bills" class="table">
+      <tr class="notification is-link">
+        <th>Name</th>
+        <th>amount</th>
+        <th>Due Date</th>
+        <th>Date Paid</th>
+        <th>Is Paid</th>
+        <th>Notes</th>
+        <th>Del</th>
+        <th>Edit</th>
+      </tr>
+      {% for bill in bills %}
+        {% if bill.paycheck_id != "True" %}
+          <tr class="notification is-link">
+                <td>{{ bill.name }}</td>
+                <td class="currency">{{ bill.amount }}</td>
+                <td>{{ bill.due_date }}</td>
+                <td>{{ bill.date_paid }}</td>
+                <td>{{ bill.is_paid }}</td>
+                <td>{{ bill.notes }}</td>
+
+                <td>
+                  <button type="button" name="button" onclick="confirmDelete({{ bill._id }})" style="color: transparent; background-color: transparent; border: none; cursor: pointer;">
+                    <ion-icon size="large" style="color:red;" name="close-circle-outline"></ion-icon>
+                  </button>
+                </td>
+                <td>
+                  <a href="/edit-bill-form?_id={{ bill._id }}">
+                    <ion-icon size="large" style="color:white;" name="create-outline"></ion-icon>
+                  </a>
+                </td>
+          </tr>
+          {% endif %}
+        {% endfor %}
+    </table>
+  </div>
+</div>
+
+<div class="container columns is-multiline is-centered">
+  <div id="All Bills" class="is-half column">
+    <h1>ALL BILLS</h1>
+    <table class="table">
+      <tr class="notification is-success">
+        <th>Name</th>
+        <th>amount</th>
+        <th>Due Date</th>
+        <th>Date Paid</th>
+        <th>Is Paid</th>
+        <th>Notes</th>
+        <th>Del</th>
+        <th>Edit</th>
+      </tr>
+      {% for bill in bills %}
+        <tr class="notification is-success">
+              <td>{{ bill.name }}</td>
+              <td class="currency">{{ bill.amount }}</td>
+              <td>{{ bill.due_date }}</td>
+              <td>{{ bill.date_paid }}</td>
+              <td>{{ bill.is_paid }}</td>
+              <td>{{ bill.notes }}</td>
+
+              <td>
+                <button type="button" name="button" onclick="confirmDelete({{ bill._id }})" style="color: transparent; background-color: transparent; border: none; cursor: pointer;">
+                  <ion-icon size="large" style="color:red;" name="close-circle-outline"></ion-icon>
+                </button>
+              </td>
+              <td>
+                <a href="/edit-bill-form?_id={{ bill._id }}">
+                <ion-icon size="large" style="color:white;" name="create-outline"></ion-icon>
+              </a>
+              </td>
+        </tr>
+        {% endfor %}
+    </table>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function confirmDelete(bill_id, bill){
+
+    console.log(`bill_id:${bill_id} bill:${bill}`)
+    let c = confirm("Are you sure you want to remove this bill?");
+    if(c){
+      fetch("/delete-bill", {
+      method: "POST",
+      body: JSON.stringify({
+        _id: bill_id
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    }).then(()=>{location.reload()})
+    }
+  }
+</script>
+{% endblock %}

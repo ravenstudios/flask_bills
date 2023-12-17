@@ -1,0 +1,129 @@
+{% extends 'base-template.html' %}
+{% block content %}
+
+
+{% for paycheck in paychecks %}
+  <div class="container columns">
+    <div class="column block notification is-link">
+      <table id="paycheck-info" class="table">
+        <tr>
+          <th>Name</th>
+          <th>Ammount</th>
+          <th>Paid Date</th>
+          <th>Notes</th>
+          <th>Edit</th>
+          <th>Remove</th>
+        </tr>
+        <tr>
+          <td>{{ paycheck.name }}</td>
+          <td class="currency">{{ paycheck.amount }}</td>
+          <td>{{ paycheck.date_paid }}</td>
+          <td>{{ paycheck.notes }}</td>
+            <td>
+              <a href="/edit-paycheck-form?_id={{ paycheck._id }}">
+                <ion-icon size="large" style="color:blue;" name="create-outline"></ion-icon>
+              </a>
+          </td>
+          <td>
+            <button type="button" onclick="confirmDelete('/delete-paycheck?_id={{ paycheck._id }}', 'paycheck')"  style="color: transparent; background-color: transparent; border: none; cursor: pointer;">
+              <ion-icon size="large" style="color:red;" name="close-circle-outline"></ion-icon>
+            </button>
+            <!-- <a id="{{ paycheck._id }}" href="/delete-paycheck?_id={{ paycheck._id }}">
+              <ion-icon size="large" style="color:red;" name="close-circle-outline"></ion-icon>
+            </a> -->
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="column is-fluid notification has-background-success">
+      <table id="bills" class="table">
+        <tr>
+          <th>Bill</th>
+          <th>Ammount</th>
+          <th>Remove</th>
+          <th>Edit</th>
+          <th>Paid</th>
+          <th>
+            <a href="/add-new-bill-form?paycheck-id={{ paycheck._id }}">
+              <ion-icon size="large" style="color:green;" name="add-circle-outline"></ion-icon>
+            </a>
+          </th>
+        </tr>
+        {% for bill in paycheck.bills%}
+          <tr>
+            <td>
+
+                  {{ bill.name }}
+
+            </td>
+            <td class="currency">
+
+                  {{ bill.amount }}
+
+            </td>
+            <td>
+                <!-- <button onclick="myFunction()"><ion-icon size="large" style="color:red;" name="close-circle-outline"></ion-icon></button> -->
+                <!-- <a  href=> -->
+                <button type="button" onclick="confirmDelete('/remove-bill?_id={{ bill._id }}', 'bill')"  style="color: transparent; background-color: transparent; border: none; cursor: pointer;">
+                  <ion-icon size="large" style="color:red;" name="close-circle-outline"></ion-icon>
+                </button>
+            </td>
+            <td>
+              <a class="fas fa-home" href="/edit-bill-form?_id={{ bill._id }}">
+                <ion-icon size="large" style="color:blue;" name="create-outline"></ion-icon>
+              </a>
+            </td>
+            <td>
+              <label for="paid-cb">Paid</label>
+              <input type="checkbox"  {% if bill.is_paid %}checked{% endif %} onclick="markPaid({{ bill._id }})" class="paid-cb" value="Paid" >
+            </td>
+            <script type="text/javascript">
+              function markPaid(billId){
+                window.onclick = e => {
+                    if(e.target.checked){
+                      window.location.href = "/mark-bill-paid?_id=" + billId;
+
+                    }
+                    else{
+                      window.location.href = "/mark-bill-unpaid?_id=" + billId;
+
+                    }
+                }
+              }
+            </script>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+
+
+    <div class="column  mb-5 notification has-background-warning">
+      <table id="balance" class="table">
+        <tr>
+          <th>Total Bills</th>
+          <th>Bank</th>
+          <th>Balance</th>
+        </tr>
+        <tr>
+          {% set total = paycheck.bills|selectattr('is_paid', '==', False)|map(attribute='amount')|sum %}
+          <td class="currency">{{ total }}</td>
+          <td class="currency">{{ paycheck.amount }}</td>
+          <td class="currency"> {{ paycheck.amount - total }}</td>
+        </tr>
+      </table>
+    </div>
+
+
+  </div>
+  <script type="text/javascript">
+    function confirmDelete(href, message){
+      let c = confirm("Are you sure you want to remove this " +  message + "?");
+      if(c){
+        window.location.href = href;
+      }
+    }
+  </script>
+{% endfor %}
+
+{% endblock %}

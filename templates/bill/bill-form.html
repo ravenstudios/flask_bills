@@ -1,0 +1,73 @@
+{% extends 'base-template.html' %}
+{% block content %}
+
+
+
+<div id="content">
+  <form class="" action="{% if bill %}edit-bill{% else %}add-new-bill{% endif %}" method="post">
+    <input type="hidden" name="_id" value="{% if bill %}{{ bill._id}}{% endif %}">
+    <div class="">
+      <div id="content">
+        <form class="" action="{% if paycheck %}edit-paycheck{%else%}add-new-paycheck{% endif %}" method="post">
+          <div class="">
+            <h1>{% if bill %}EDIT BILL{% elif paycheck%}ADD NEW BILL TO PAYCHECK{% else %}ADD NEW BILL{% endif %}</h1>
+            <!-- <input type="hidden" name="_id" value="{% if paycheck %} {{ paycheck._id}}{% endif %}"> -->
+            <div class="field">
+              <label class="label">Name</label>
+              <div class="control">
+                <input class="input" required type="text" name="name" value="{% if bill %}{{ bill.name }}{% endif %}" placeholder="Name of bill">
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Amount</label>
+              <div class="control">
+                <input class="input" pattern="-?\d*(\.\d{2})?" required type="text" name="amount" value="{% if bill %}{{ bill.amount }}{% endif %}" placeholder="Bill amount">
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Due Date</label>
+              <div class="control">
+                <input class="date" required type="date" name="due-date" value="{% if bill %}{{ bill.due_date }}{% else %}{{ today }}{% endif %}">
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Notes</label>
+              <div class="control">
+                <textarea class="textarea" name="notes" rows="4" cols="40">{% if bill %}{{ bill.notes }}{% endif %}</textarea>
+              </div>
+            </div>
+            <div class="field">
+
+              <label class="label">Assigned Paycheck</label>
+              <div class="control">
+                <select class="select" name="paycheck_id" id="">
+                <option value=""></option>
+
+                  {% for paycheck in paychecks %}
+                  {% if bill %}
+                    <option {% if bill.paycheck_id == paycheck._id %} selected {% endif %} value="{{ paycheck._id }}">{{ paycheck.name }}, {{ paycheck.date_paid }}</option>
+                  {% endif %}
+
+                  {% if paycheck_from_from %}
+                    <option {% if paycheck_from_from._id == paycheck._id %} selected {% endif %} value="{{ paycheck._id }}">{{ paycheck.name }}, {{ paycheck.date_paid }}</option>
+                  {% endif %}
+
+
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <div class="control">
+                <input class="submit" type="submit" value="Submit">
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}
