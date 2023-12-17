@@ -22,7 +22,7 @@ class Bill(db.Model):
         self.amount = bill["amount"][0]
         self.due_date = datetime.datetime.now()
         self.date_paid = None
-        self.is_paid = None
+        self.is_paid = False
         self.notes = bill["notes"][0]
         self.paycheck_id = bill["paycheck_id"][0]
 

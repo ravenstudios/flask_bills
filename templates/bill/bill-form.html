@@ -22,7 +22,7 @@
             <div class="field">
               <label class="label">Amount</label>
               <div class="control">
-                <input class="input" pattern="\d*(\.\d{2})?" required type="text" name="amount" value="{% if bill %}{{ bill.amount }}{% endif %}" placeholder="Bill amount">
+                <input class="input" pattern="-?\d*(\.\d{2})?" required type="text" name="amount" value="{% if bill %}{{ bill.amount }}{% endif %}" placeholder="Bill amount">
               </div>
             </div>
             <div class="field">
@@ -39,14 +39,20 @@
               </div>
             </div>
             <div class="field">
-            
+
               <label class="label">Assigned Paycheck</label>
               <div class="control">
                 <select class="select" name="paycheck_id" id="">
                 <option value=""></option>
 
                   {% for paycheck in paychecks %}
+                  {% if bill %}
                     <option {% if bill.paycheck_id == paycheck._id %} selected {% endif %} value="{{ paycheck._id }}">{{ paycheck.name }}, {{ paycheck.date_paid }}</option>
+                  {% endif %}
+
+                  {% if paycheck_from_from %}
+                    <option {% if paycheck_from_from._id == paycheck._id %} selected {% endif %} value="{{ paycheck._id }}">{{ paycheck.name }}, {{ paycheck.date_paid }}</option>
+                  {% endif %}
 
 
                   {% endfor %}
