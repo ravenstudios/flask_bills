@@ -112,7 +112,9 @@ def add_new_bill_form():
 
 @app.route('/add-new-bill', methods = ['GET', 'POST'])
 def add_new_bill():
+    print("ADD BILL")
     form = request.form.to_dict(flat=False)
+    print(form)
     db.session.add(Bill(form))
     db.session.commit()
     return redirect("/")
